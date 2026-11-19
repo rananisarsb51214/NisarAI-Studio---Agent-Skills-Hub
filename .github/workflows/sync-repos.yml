@@ -1,0 +1,24 @@
+name: Auto-Sync Agent Skills Hub to Vercel Production Repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-to-vercel-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push Changes to Nisaraistudio-vercelapp
+        env:
+          TARGET_PAT: ${{ secrets.VERCEL_REPO_PAT }}
+        run: |
+          git config user.name "Muhammad Nisar"
+          git config user.email "nisarrsna@gmail.com"
+          git remote add target https://x-access-token:${TARGET_PAT}@github.com/rananisarsb51214/Nisaraistudio-vercelapp.git
+          git push target main --force
